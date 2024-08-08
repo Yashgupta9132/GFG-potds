@@ -1,0 +1,26 @@
+# Java
+
+class Solution {
+    private int checkSumTree(Node node) {
+        if (node == null)
+            return 0;
+
+        if (node.left == null && node.right == null)
+            return node.data;
+
+        int leftSum = checkSumTree(node.left);
+        int rightSum = checkSumTree(node.right);
+
+        if (leftSum == -1 || rightSum == -1)
+            return -1;
+
+        if (node.data == leftSum + rightSum)
+            return node.data + leftSum + rightSum;
+
+        return -1;
+    }
+
+    boolean isSumTree(Node root) {
+        return checkSumTree(root) != -1;
+    }
+}
