@@ -1,0 +1,44 @@
+# Java
+
+class Solution {
+    
+    public int[] shortestPath(int[][] edges, int n, int m, int src) {
+        // Initialize the adjacency list
+        List<List<Integer>> adjList = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            adjList.add(new ArrayList<>());
+        }
+        
+        // Populate the adjacency list with the edges
+        for (int i = 0; i < m; i++) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            adjList.get(u).add(v);
+            adjList.get(v).add(u);
+        }
+        
+        // Initialize the distance array
+        int[] dist = new int[n];
+        Arrays.fill(dist, -1);  // Initially all distances are -1 (unreachable)
+        dist[src] = 0;  // Distance to source is 0
+        
+        // Perform BFS
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(src);
+        
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+            
+            // Explore neighbors
+            for (int neighbor : adjList.get(node)) {
+                if (dist[neighbor] == -1) {  // If the neighbor hasn't been visited yet
+                    dist[neighbor] = dist[node] + 1;  // Update the distance
+                    queue.add(neighbor);
+                }
+            }
+        }
+        
+        // Return the final distances
+        return dist;
+    }
+}
