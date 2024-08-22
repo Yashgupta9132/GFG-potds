@@ -1,0 +1,57 @@
+# Java
+
+class Solution {
+    public String findOrder(String[] dict, int n, int k) {
+        List<Integer>[] graph = new ArrayList[k];
+        for (int i = 0; i < k; i++) {
+            graph[i] = new ArrayList<>();
+        }
+        
+        for (int i = 0; i < n - 1; i++) {
+            String word1 = dict[i];
+            String word2 = dict[i + 1];
+            int minLength = Math.min(word1.length(), word2.length());
+            for (int j = 0; j < minLength; j++) {
+                if (word1.charAt(j) != word2.charAt(j)) {
+                    graph[word1.charAt(j) - 'a'].add(word2.charAt(j) - 'a');
+                    break;
+                }
+            }
+        }
+        
+        int[] indegree = new int[k];
+        for (int i = 0; i < k; i++) {
+            for (int node : graph[i]) {
+                indegree[node]++;
+            }
+        }
+        
+        Queue<Integer> queue = new LinkedList<>();
+        StringBuilder order = new StringBuilder();
+        
+        for (int i = 0; i < k; i++) {
+            if (indegree[i] == 0) {
+                queue.add(i);
+            }
+        }
+        
+        // Process the nodes
+        while (!queue.isEmpty()) {
+            int current = queue.poll();
+            order.append((char)(current + 'a'));
+            
+            for (int neighbor : graph[current]) {
+                indegree[neighbor]--;
+                if (indegree[neighbor] == 0) {
+                    queue.add(neighbor);
+                }
+            }
+        }
+        
+        if (order.length() == k) {
+            return order.toString();
+        } else {
+            return ""; 
+        }
+    }
+}
