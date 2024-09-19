@@ -1,0 +1,15 @@
+# Java
+
+class Solution {
+    String reverseWords(String str) {
+        String[] words = str.split("\\.");  
+        StringBuilder reversedStr = new StringBuilder();
+        for (int i = words.length - 1; i >= 0; i--) {
+            reversedStr.append(words[i]);  
+            if (i != 0) {
+                reversedStr.append(".");
+            }
+        }
+        return reversedStr.toString();
+    }
+}
