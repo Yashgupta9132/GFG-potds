@@ -1,0 +1,44 @@
+# Java
+
+class Solution {
+    Node deleteNode(Node head, int key) {
+        if (head == null) return null;
+        if (head.data == key && head.next == head) {
+            return null;
+        }
+        Node curr = head, prev = null;
+        if (head.data == key) {
+            while (curr.next != head) {
+                curr = curr.next;
+            }
+            curr.next = head.next;
+            head = head.next;
+            return head;
+        }
+        curr = head;
+        while (curr.next != head && curr.data != key) {
+            prev = curr;
+            curr = curr.next;
+        }
+        if (curr.data == key) {
+            prev.next = curr.next;
+        }
+        return head;
+    }
+    Node reverse(Node head) {
+        if (head == null || head.next == head) return head;
+        Node prev = null;
+        Node current = head;
+        Node next = null;
+        Node tail = head;
+        do {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        } while (current != head);
+        tail.next = prev;
+        head = prev;
+        return head;
+    }
+}
