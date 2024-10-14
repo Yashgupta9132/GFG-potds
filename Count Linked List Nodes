@@ -1,0 +1,13 @@
+# Java 
+
+class Solution {
+    public int getCount(Node head) {
+        // code here
+        int ans = 0;
+        while(head!=null){
+            ans++;
+            head=head.next;
+        }
+        return ans;
+    }
+}
