@@ -1,0 +1,22 @@
+# Java
+
+class Solution {
+    public int countgroup(int[] arr) {
+        // Define the mod value
+        int mod = (int) 1e9 + 7;
+        int xr = 0;
+        int n = arr.length;
+        
+        for (int i = 0; i < n; i++) {
+            xr ^= arr[i];
+        }
+        
+        if (xr != 0) return 0;
+        
+        int ans = 1;
+        for (int i = 0; i < n - 1; i++) {
+            ans = (ans * 2) % mod;
+        }
+        return ans - 1;
+    }
+}
