@@ -1,0 +1,25 @@
+# Java
+
+class Solution {
+    public long maxSum(Long[] arr) {
+        Arrays.sort(arr); 
+        int n = arr.length;
+        Long[] shuffledArr = new Long[n];
+        int left = 0, right = n - 1;
+        int index = 0;
+        while (left <= right) {
+            if (index % 2 == 0) {
+                shuffledArr[index] = arr[left++];
+            } else {
+                shuffledArr[index] = arr[right--];
+            }
+            index++;
+        }
+        long maxSum = 0;
+        for (int i = 1; i < n; i++) {
+            maxSum += Math.abs(shuffledArr[i] - shuffledArr[i - 1]);
+        }
+        maxSum += Math.abs(shuffledArr[n - 1] - shuffledArr[0]);
+        return maxSum;
+    }
+}
