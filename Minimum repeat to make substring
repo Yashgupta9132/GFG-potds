@@ -1,0 +1,23 @@
+# Java 
+
+class Solution {
+    static int minRepeats(String s1, String s2) {
+        // code here
+        for(char c: s2.toCharArray()){
+            if(!s1.contains(String.valueOf(c))){
+                return -1;
+            }
+        }
+        int count=1;
+        StringBuilder str=new StringBuilder(s1);
+        while(str.length()<s2.length()){
+            str.append(s1);
+            count++;
+        }
+        if(str.toString().contains(s2)) return count;
+        str.append(s1);
+        count++;
+        if(str.toString().contains(s2)) return count;
+        return -1;
+    }
+};
