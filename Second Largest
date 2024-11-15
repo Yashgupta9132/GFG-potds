@@ -1,0 +1,16 @@
+# Java 
+
+class Solution {
+    public int getSecondLargest(int[] arr) {
+        // Code Here
+        int mx1=Integer.MIN_VALUE,mx2=Integer.MIN_VALUE;
+        for(int x:arr){
+            if(x>mx1){
+                mx2=mx1;
+                mx1=x;
+            }
+            else if(x>mx2 && x!=mx1)mx2=x;
+        }
+        return mx2!=Integer.MIN_VALUE?mx2:-1;
+    }
+}
