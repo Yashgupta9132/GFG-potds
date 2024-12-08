@@ -1,0 +1,26 @@
+# Java
+
+class Solution {
+    public List<int[]> mergeOverlap(int[][] arr) {
+        List<int[]> mergedIntervals = new ArrayList<>();
+        if (arr == null || arr.length == 0) {
+            return mergedIntervals;
+        }
+        Arrays.sort(arr, (a, b) -> Integer.compare(a[0], b[0]));
+        int[] currentInterval = arr[0];
+        mergedIntervals.add(currentInterval);
+        for (int i = 1; i < arr.length; i++) {
+            int currentStart = currentInterval[0];
+            int currentEnd = currentInterval[1];
+            int nextStart = arr[i][0];
+            int nextEnd = arr[i][1];
+            if (currentEnd >= nextStart) {
+                currentInterval[1] = Math.max(currentEnd, nextEnd);
+            } else {
+                currentInterval = arr[i];
+                mergedIntervals.add(currentInterval);
+            }
+        }
+        return mergedIntervals;
+    }
+}
