@@ -1,0 +1,19 @@
+# Java 
+
+class Solution {
+    public int kthMissing(int[] arr, int k) {
+        int missingCount = 0;
+        int index = 0;
+
+        for (int num = 1; ; num++) {
+            if (index < arr.length && arr[index] == num) {
+                index++;
+            } else {
+                missingCount++;
+                if (missingCount == k) {
+                    return num;
+                }
+            }
+        }
+    }
+}
