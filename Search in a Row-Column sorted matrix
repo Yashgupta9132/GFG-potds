@@ -1,0 +1,15 @@
+# Java 
+
+class Solution {
+    public static boolean matSearch(int mat[][], int x) {
+        // your code here
+        int i=0,j=mat[0].length-1,N=mat.length;
+	    while(i<N && j>=0){
+	        int temp=mat[i][j];
+	        if(temp==x)return true;
+	        else if(temp<x)i++;
+	        else j--;
+	    }
+	    return false;
+    }
+}
