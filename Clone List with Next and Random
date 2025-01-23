@@ -1,0 +1,34 @@
+# Java 
+
+class Solution {
+    public Node cloneLinkedList(Node head) {
+        if (head == null) return null;
+
+        Node temp = head;
+        while (temp != null) {
+            Node cloneNode = new Node(temp.data);
+            cloneNode.next = temp.next;
+            temp.next = cloneNode;
+            temp = cloneNode.next;
+        }
+
+        temp = head;
+        while (temp != null) {
+            if (temp.random != null) {
+                temp.next.random = temp.random.next;
+            }
+            temp = temp.next.next;
+        }
+
+        Node cloneHead = new Node(0), cloneTemp = cloneHead;
+        temp = head;
+        while (temp != null) {
+            cloneTemp.next = temp.next;
+            cloneTemp = cloneTemp.next;
+            temp.next = temp.next.next;
+            temp = temp.next;
+        }
+
+        return cloneHead.next;
+    }
+}
