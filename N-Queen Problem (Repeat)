@@ -1,0 +1,39 @@
+# Java
+
+class Solution {
+    public ArrayList<ArrayList<Integer>> nQueen(int n) {
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+        int[] board = new int[n];
+        solve(0, n, board, new HashSet<>(), new HashSet<>(), new HashSet<>(), result);
+        return result;
+    }
+    
+    private void solve(int col, int n, int[] board, Set<Integer> cols, Set<Integer> diag1, Set<Integer> diag2, ArrayList<ArrayList<Integer>> result) {
+        if (col == n) {
+            ArrayList<Integer> solution = new ArrayList<>();
+            for (int row : board) {
+                solution.add(row + 1);
+            }
+            result.add(solution);
+            return;
+        }
+
+        for (int row = 0; row < n; row++) {
+            int d1 = row - col, d2 = row + col;
+            if (cols.contains(row) || diag1.contains(d1) || diag2.contains(d2)) {
+                continue;
+            }
+            
+            board[col] = row;
+            cols.add(row);
+            diag1.add(d1);
+            diag2.add(d2);
+            
+            solve(col + 1, n, board, cols, diag1, diag2, result);
+            
+            cols.remove(row);
+            diag1.remove(d1);
+            diag2.remove(d2);
+        }
+    }
+}
