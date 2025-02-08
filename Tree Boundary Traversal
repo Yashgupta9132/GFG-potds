@@ -1,0 +1,49 @@
+# Java 
+
+class Solution {
+    ArrayList<Integer> boundaryTraversal(Node node) {
+        ArrayList<Integer> result = new ArrayList<>();
+        if (node == null) return result;
+
+        result.add(node.data);
+
+        getLeftBoundary(node.left, result);
+        getLeafNodes(node.left, result);
+        getLeafNodes(node.right, result);
+        getRightBoundary(node.right, result);
+
+        return result;
+    }
+
+    private void getLeftBoundary(Node node, ArrayList<Integer> result) {
+        while (node != null) {
+            if (!isLeaf(node)) result.add(node.data);
+            node = (node.left != null) ? node.left : node.right;
+        }
+    }
+
+    private void getLeafNodes(Node node, ArrayList<Integer> result) {
+        if (node == null) return;
+        if (isLeaf(node)) {
+            result.add(node.data);
+            return;
+        }
+        getLeafNodes(node.left, result);
+        getLeafNodes(node.right, result);
+    }
+
+    private void getRightBoundary(Node node, ArrayList<Integer> result) {
+        Stack<Integer> stack = new Stack<>();
+        while (node != null) {
+            if (!isLeaf(node)) stack.push(node.data);
+            node = (node.right != null) ? node.right : node.left;
+        }
+        while (!stack.isEmpty()) {
+            result.add(stack.pop());
+        }
+    }
+
+    private boolean isLeaf(Node node) {
+        return (node.left == null && node.right == null);
+    }
+}
