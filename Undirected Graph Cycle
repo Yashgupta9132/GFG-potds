@@ -1,0 +1,38 @@
+# Java 
+
+class Solution {
+    public boolean isCycle(int V, int[][] edges) {
+        int[] parent = new int[V];
+        
+        for (int i = 0; i < V; i++) {
+            parent[i] = i;
+        }
+
+        int find(int[] parent, int x) {
+            if (parent[x] != x)
+                parent[x] = find(parent, parent[x]);
+            return parent[x];
+        }
+
+        boolean union(int[] parent, int x, int y) {
+            int xRoot = find(parent, x);
+            int yRoot = find(parent, y);
+
+            if (xRoot == yRoot)
+                return true; 
+
+            parent[xRoot] = yRoot;
+            return false;
+        }
+        
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            if (union(parent, u, v)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+}    
