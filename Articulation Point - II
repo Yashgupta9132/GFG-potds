@@ -1,0 +1,56 @@
+# Java 
+
+class Solution {
+    static ArrayList<Integer> articulationPoints(int V, int[][] edges) {
+        List<List<Integer>> adj = new ArrayList<>();
+        for (int i = 0; i < V; i++) adj.add(new ArrayList<>());
+        for (int[] edge : edges) {
+            adj.get(edge[0]).add(edge[1]);
+            adj.get(edge[1]).add(edge[0]);
+        }
+
+        int[] disc = new int[V];
+        int[] low = new int[V];
+        int[] parent = new int[V];
+        boolean[] visited = new boolean[V];
+        boolean[] ap = new boolean[V];
+        Arrays.fill(disc, -1);
+        Arrays.fill(low, -1);
+        Arrays.fill(parent, -1);
+
+        for (int i = 0; i < V; i++) {
+            if (!visited[i]) {
+                dfs(i, disc, low, parent, visited, ap, adj, new int[]{0});
+            }
+        }
+
+        ArrayList<Integer> result = new ArrayList<>();
+        for (int i = 0; i < V; i++) {
+            if (ap[i]) result.add(i);
+        }
+
+        return result.isEmpty() ? new ArrayList<>(List.of(-1)) : result;
+    }
+
+    private static void dfs(int u, int[] disc, int[] low, int[] parent, boolean[] visited,
+                            boolean[] ap, List<List<Integer>> adj, int[] time) {
+        visited[u] = true;
+        disc[u] = low[u] = time[0]++;
+        int children = 0;
+
+        for (int v : adj.get(u)) {
+            if (!visited[v]) {
+                parent[v] = u;
+                children++;
+                dfs(v, disc, low, parent, visited, ap, adj, time);
+                low[u] = Math.min(low[u], low[v]);
+
+                if (parent[u] == -1 && children > 1) ap[u] = true;
+                if (parent[u] != -1 && low[v] >= disc[u]) ap[u] = true;
+
+            } else if (v != parent[u]) {
+                low[u] = Math.min(low[u], disc[v]);
+            }
+        }
+    }
+}
