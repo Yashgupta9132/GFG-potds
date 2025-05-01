@@ -1,0 +1,16 @@
+# Java 
+
+class Solution {
+    ArrayList<Integer> nthRowOfPascalTriangle(int n) {
+        ArrayList<Integer> row = new ArrayList<>();
+        long value = 1;
+        row.add(1);  // C(n-1, 0)
+
+        for (int i = 1; i < n; i++) {
+            value = value * (n - i) / i;
+            row.add((int) value);
+        }
+
+        return row;
+    }
+}
