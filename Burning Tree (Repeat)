@@ -1,0 +1,55 @@
+// Java 
+
+class Solution {
+    public static int minTime(Node root, int target) {
+        Map<Node, Node> parentMap = new HashMap<>();
+        Node targetNode = mapParents(root, null, target, parentMap);
+
+        Set<Node> visited = new HashSet<>();
+        Queue<Node> queue = new LinkedList<>();
+
+        queue.offer(targetNode);
+        visited.add(targetNode);
+
+        int time = -1;
+
+        while (!queue.isEmpty()) {
+            int size = queue.size();
+            time++;
+            for (int i = 0; i < size; i++) {
+                Node current = queue.poll();
+
+                if (current.left != null && !visited.contains(current.left)) {
+                    visited.add(current.left);
+                    queue.offer(current.left);
+                }
+                if (current.right != null && !visited.contains(current.right)) {
+                    visited.add(current.right);
+                    queue.offer(current.right);
+                }
+                Node parent = parentMap.get(current);
+                if (parent != null && !visited.contains(parent)) {
+                    visited.add(parent);
+                    queue.offer(parent);
+                }
+            }
+        }
+
+        return time;
+    }
+
+    private static Node mapParents(Node node, Node parent, int target, Map<Node, Node> parentMap) {
+        if (node == null) return null;
+
+        if (parent != null) {
+            parentMap.put(node, parent);
+        }
+
+        if (node.data == target) return node;
+
+        Node left = mapParents(node.left, node, target, parentMap);
+        if (left != null) return left;
+
+        return mapParents(node.right, node, target, parentMap);
+    }
+}
