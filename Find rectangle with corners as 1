@@ -1,0 +1,24 @@
+// Java 
+
+class Solution {
+    public boolean ValidCorner(int[][] mat) {
+        int n = mat.length;
+        int m = mat[0].length;
+        Set<String> seenPairs = new HashSet<>();
+
+        for (int i = 0; i < n; i++) {
+            for (int c1 = 0; c1 < m; c1++) {
+                if (mat[i][c1] == 1) {
+                    for (int c2 = c1 + 1; c2 < m; c2++) {
+                        if (mat[i][c2] == 1) {
+                            String key = c1 + "," + c2;
+                            if (seenPairs.contains(key)) return true;
+                            seenPairs.add(key);
+                        }
+                    }
+                }
+            }
+        }
+        return false;
+    }
+}
