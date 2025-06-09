@@ -1,0 +1,16 @@
+// Java 
+
+class Solution {
+    public boolean isDeadEnd(Node root) {
+        return dfs(root, 1, Integer.MAX_VALUE);
+    }
+
+    private boolean dfs(Node node, int min, int max) {
+        if (node == null) return false;
+
+        if (min == max) return true;
+
+        return dfs(node.left, min, node.data - 1) || 
+               dfs(node.right, node.data + 1, max);
+    }
+}
