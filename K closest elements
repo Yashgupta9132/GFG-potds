@@ -1,0 +1,48 @@
+// Java 
+
+class Solution {
+    public int[] printKClosest(int[] arr, int k, int x) {
+        int n = arr.length;
+        int left = 0, right = n - 1;
+
+        // Binary search to find the closest index
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (arr[mid] < x) left = mid + 1;
+            else right = mid;
+        }
+
+        int l = left - 1, r = left;
+        List<Integer> res = new ArrayList<>();
+
+        while (k > 0) {
+            // Skip x if it exists
+            if (l >= 0 && arr[l] == x) l--;
+            if (r < n && arr[r] == x) r++;
+
+            if (l < 0) {
+                if (arr[r] != x) res.add(arr[r]);
+                r++;
+            } else if (r >= n) {
+                if (arr[l] != x) res.add(arr[l]);
+                l--;
+            } else {
+                int distL = Math.abs(arr[l] - x);
+                int distR = Math.abs(arr[r] - x);
+
+                if (distL < distR || (distL == distR && arr[l] > arr[r])) {
+                    if (arr[l] != x) res.add(arr[l]);
+                    l--;
+                } else {
+                    if (arr[r] != x) res.add(arr[r]);
+                    r++;
+                }
+            }
+            k--;
+        }
+
+        int[] ans = new int[res.size()];
+        for (int i = 0; i < res.size(); i++) ans[i] = res.get(i);
+        return ans;
+    }
+}
