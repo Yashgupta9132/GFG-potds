@@ -1,0 +1,30 @@
+// Java 
+
+class Solution {
+    public int kokoEat(int[] arr, int k) {
+        int left = 1, right = 0;
+        for (int bananas : arr) {
+            right = Math.max(right, bananas);
+        }
+
+        int result = right;
+        while (left <= right) {
+            int mid = (left + right) / 2;
+            if (canFinish(arr, k, mid)) {
+                result = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return result;
+    }
+
+    private boolean canFinish(int[] arr, int k, int speed) {
+        int hours = 0;
+        for (int bananas : arr) {
+            hours += (bananas + speed - 1) / speed; // ceil division
+        }
+        return hours <= k;
+    }
+}
