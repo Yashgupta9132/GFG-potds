@@ -1,0 +1,26 @@
+// Java
+
+class Solution {
+    public boolean validgroup(int[] arr, int k) {
+        if (arr.length % k != 0) return false;
+
+        TreeMap<Integer, Integer> freq = new TreeMap<>();
+        for (int num : arr) {
+            freq.put(num, freq.getOrDefault(num, 0) + 1);
+        }
+
+        while (!freq.isEmpty()) {
+            int start = freq.firstKey();
+
+            for (int i = 0; i < k; i++) {
+                int key = start + i;
+                if (!freq.containsKey(key)) return false;
+
+                freq.put(key, freq.get(key) - 1);
+                if (freq.get(key) == 0) freq.remove(key);
+            }
+        }
+
+        return true;
+    }
+}
