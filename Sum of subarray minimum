@@ -1,0 +1,45 @@
+// Java 
+
+class Solution {
+    public int sumSubMins(int[] arr) {
+        int n = arr.length;
+        int[] pse = new int[n]; 
+        int[] nse = new int[n]; 
+        Arrays.fill(pse, -1);
+        Arrays.fill(nse, n);
+
+        Stack<Integer> stack = new Stack<>();
+
+        for (int i = 0; i < n; i++) {
+            while (!stack.isEmpty() && arr[stack.peek()] >= arr[i]) {
+                stack.pop();
+            }
+            if (!stack.isEmpty()) {
+                pse[i] = stack.peek();
+            }
+            stack.push(i);
+        }
+
+        stack.clear();
+
+        for (int i = n - 1; i >= 0; i--) {
+            while (!stack.isEmpty() && arr[stack.peek()] > arr[i]) {
+                stack.pop();
+            }
+            if (!stack.isEmpty()) {
+                nse[i] = stack.peek();
+            }
+            stack.push(i);
+        }
+
+        long result = 0;
+        int MOD = (int)1e9 + 7; 
+        for (int i = 0; i < n; i++) {
+            long left = i - pse[i];
+            long right = nse[i] - i;
+            result += (long)arr[i] * left * right;
+        }
+
+        return (int)result; 
+    }
+}
