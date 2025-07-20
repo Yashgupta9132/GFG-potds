@@ -1,0 +1,32 @@
+// Java 
+
+class Solution {
+    static int fastPow(int base, int exp) {
+        int result = 1;
+        while (exp > 0) {
+            if ((exp & 1) != 0) {
+                result *= base;
+            }
+            base *= base;
+            exp /= 2;
+        }
+        return result;
+    }
+
+    static int countValid(int n, int[] arr) {
+        boolean[] good = new boolean[10];
+        for (int i = 0; i < arr.length; i++) good[arr[i]] = true;
+
+        int c = 0, nonzero = 0;
+        for (int i = 0; i < 10; i++) {
+            if (!good[i]) {
+                if (i > 0) nonzero++;
+                c++;
+            }
+        }
+
+        int total = 9 * fastPow(10, n - 1);
+        int noneAllowed = (c == 0) ? 0 : nonzero * fastPow(c, n - 1);
+        return total - noneAllowed;
+    }
+}
