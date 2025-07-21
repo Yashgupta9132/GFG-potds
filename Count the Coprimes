@@ -1,0 +1,48 @@
+// Java
+
+class Solution {
+    public int cntCoprime(int[] arr) {
+        int maxVal = 10000;
+
+        int[] freq = new int[maxVal + 1];
+        int[] divCount = new int[maxVal + 1];
+        int[] mu = new int[maxVal + 1];
+
+        for (int x : arr) {
+            freq[x]++;
+        }
+
+        Arrays.fill(mu, 1);
+        boolean[] isPrime = new boolean[maxVal + 1];
+        Arrays.fill(isPrime, true);
+        mu[0] = 0;
+        mu[1] = 1;
+        for (int i = 2; i <= maxVal; i++) {
+            if (isPrime[i]) {
+                for (int j = i; j <= maxVal; j += i) {
+                    mu[j] *= -1;
+                    isPrime[j] = false;
+                }
+                for (int j = i * i; j <= maxVal; j += i * i) {
+                    mu[j] = 0;
+                }
+            }
+        }
+
+        for (int i = 1; i <= maxVal; i++) {
+            for (int j = i; j <= maxVal; j += i) {
+                divCount[i] += freq[j];
+            }
+        }
+
+        int result = 0;
+        for (int i = 1; i <= maxVal; i++) {
+            int count = divCount[i];
+            if (count >= 2 && mu[i] != 0) {
+                result += mu[i] * (count * (count - 1)) / 2;
+            }
+        }
+
+        return result;
+    }
+}
