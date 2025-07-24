@@ -1,0 +1,20 @@
+// Java 
+
+class Solution {
+    public int getLastMoment(int n, int[] left, int[] right) {
+        int maxLeft = 0;
+        int minRight = Integer.MAX_VALUE;
+
+        for (int pos : left) {
+            maxLeft = Math.max(maxLeft, pos);  
+        }
+
+        for (int pos : right) {
+            minRight = Math.min(minRight, pos);  
+        }
+
+        int rightFallTime = (right.length > 0) ? n - minRight : 0;
+
+        return Math.max(maxLeft, rightFallTime);
+    }
+}
