@@ -1,0 +1,34 @@
+// Java 
+
+import java.util.*;
+
+class Solution {
+    public void setMatrixZeroes(int[][] arr) {
+        int n = arr.length;
+        int m = arr[0].length;
+        
+        Set<String> zeroPositions = new HashSet<>();
+        
+        for (int i = 0; i < n; ++i) {
+            for (int j = 0; j < m; ++j) {
+                if (arr[i][j] == 0) {
+                    zeroPositions.add(i + "," + j);
+                }
+            }
+        }
+
+        for (String pos : zeroPositions) {
+            String[] parts = pos.split(",");
+            int row = Integer.parseInt(parts[0]);
+            int col = Integer.parseInt(parts[1]);
+
+            for (int j = 0; j < m; ++j) {
+                arr[row][j] = 0;
+            }
+
+            for (int i = 0; i < n; ++i) {
+                arr[i][col] = 0;
+            }
+        }
+    }
+}
