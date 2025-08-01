@@ -1,0 +1,26 @@
+// Java 
+
+import java.util.*;
+
+class Solution {
+    public int countBalanced(String[] arr) {
+        Map<Integer, Integer> freqMap = new HashMap<>();
+        freqMap.put(0, 1); 
+        int diff = 0, count = 0;
+
+        for (String s : arr) {
+            for (char c : s.toCharArray()) {
+                if (isVowel(c)) diff++;
+                else diff--;
+            }
+            count += freqMap.getOrDefault(diff, 0);
+            freqMap.put(diff, freqMap.getOrDefault(diff, 0) + 1);
+        }
+
+        return count;
+    }
+
+    private boolean isVowel(char c) {
+        return "aeiou".indexOf(c) != -1;
+    }
+}
