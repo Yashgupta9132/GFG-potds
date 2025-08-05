@@ -1,0 +1,41 @@
+// Java 
+
+class Solution {
+    public boolean isPalinSent(String s) {
+        int i = 0, j = s.length() - 1;
+        char l = 'a', r = 'a';
+
+        while (i <= j) {
+            // Move i to the next alphanumeric character
+            while (i <= j) {
+                char ci = s.charAt(i);
+                if (Character.isLetterOrDigit(ci)) {
+                    l = Character.toLowerCase(ci);
+                    break;
+                } else {
+                    i++;
+                }
+            }
+
+            // Move j to the previous alphanumeric character
+            while (j >= i) {
+                char cj = s.charAt(j);
+                if (Character.isLetterOrDigit(cj)) {
+                    r = Character.toLowerCase(cj);
+                    break;
+                } else {
+                    j--;
+                }
+            }
+
+            if (l == r) {
+                i++;
+                j--;
+            } else {
+                return false;
+            }
+        }
+
+        return true;
+    }
+}
