@@ -1,0 +1,28 @@
+// Java 
+
+import java.util.*;
+
+class Solution {
+    public int minSoldiers(int[] arr, int k) {
+        int n = arr.length;
+        List<Integer> needed = new ArrayList<>();
+
+        for (int i = 0; i < n; i++) {
+            int md = arr[i] % k;
+            if (md == 0) {
+                needed.add(0);
+            } else {
+                needed.add(k - md);
+            }
+        }
+
+        Collections.sort(needed);
+
+        int ans = 0;
+        for (int i = 0; i < (n + 1) / 2; i++) {
+            ans += needed.get(i);
+        }
+
+        return ans;
+    }
+}
