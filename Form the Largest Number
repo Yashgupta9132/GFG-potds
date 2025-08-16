@@ -1,0 +1,25 @@
+// Java 
+
+import java.util.*;
+
+class Solution {
+    public String findLargest(int[] arr) {
+        List<String> strNums = new ArrayList<>();
+        for (int num : arr) {
+            strNums.add(String.valueOf(num));
+        }
+
+        Collections.sort(strNums, (a, b) -> (b + a).compareTo(a + b));
+
+        if (strNums.get(0).equals("0")) {
+            return "0";
+        }
+        
+        StringBuilder result = new StringBuilder();
+        for (String num : strNums) {
+            result.append(num);
+        }
+
+        return result.toString();
+    }
+}
