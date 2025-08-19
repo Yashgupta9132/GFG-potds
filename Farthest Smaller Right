@@ -1,0 +1,41 @@
+// Java 
+
+import java.util.*;
+
+class Solution {
+    public ArrayList<Integer> farMin(int[] arr) {
+        int n = arr.length;
+
+        List<int[]> vec = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            vec.add(new int[]{arr[i], i});
+        }
+
+        vec.sort((a, b) -> Integer.compare(a[0], b[0]));
+
+        int[] ans = new int[n];
+        Arrays.fill(ans, -1);
+
+        int maxi = 0;
+        for (int i = 0; i < n; i++) {
+            int num = vec.get(i)[0];
+            int idx = vec.get(i)[1];
+
+            if (i > 0 && vec.get(i - 1)[0] == num) {
+                int x = ans[vec.get(i - 1)[1]];
+                if (x > idx) {
+                    ans[idx] = x;
+                }
+            } else {
+                if (maxi > idx) {
+                    ans[idx] = maxi;
+                }
+            }
+            maxi = Math.max(maxi, idx);
+        }
+
+        ArrayList<Integer> result = new ArrayList<>();
+        for (int x : ans) result.add(x);
+        return result;
+    }
+}
