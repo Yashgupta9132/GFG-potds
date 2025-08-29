@@ -1,0 +1,49 @@
+// Java 
+
+import java.util.*;
+
+class Solution {
+    public static String smallestWindow(String s, String p) {
+        if (s.length() < p.length()) return "";
+
+        int[] need = new int[26];
+        int[] have = new int[26];
+
+        for (char c : p.toCharArray()) {
+            need[c - 'a']++;
+        }
+
+        int required = p.length();
+        int formed = 0;
+        int minLen = Integer.MAX_VALUE;
+        int minStart = 0;
+
+        int left = 0;
+
+        for (int right = 0; right < s.length(); right++) {
+            char c = s.charAt(right);
+            have[c - 'a']++;
+
+            if (need[c - 'a'] > 0 && have[c - 'a'] <= need[c - 'a']) {
+                formed++;
+            }
+
+            while (formed == required) {
+                if (right - left + 1 < minLen) {
+                    minLen = right - left + 1;
+                    minStart = left;
+                }
+
+                char leftChar = s.charAt(left);
+                have[leftChar - 'a']--;
+
+                if (need[leftChar - 'a'] > 0 && have[leftChar - 'a'] < need[leftChar - 'a']) {
+                    formed--;
+                }
+                left++;
+            }
+        }
+
+        return (minLen == Integer.MAX_VALUE) ? "" : s.substring(minStart, minStart + minLen);
+    }
+}
