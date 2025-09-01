@@ -1,0 +1,50 @@
+// Java 
+
+import java.util.*;
+
+class Solution {
+    public int sumOfModes(int[] arr, int k) {
+        int n = arr.length;
+        if (k > n) return 0;
+
+        Map<Integer, Integer> freq = new HashMap<>();
+        
+        TreeSet<int[]> pq = new TreeSet<>((a, b) -> {
+            if (a[0] != b[0]) return b[0] - a[0]; 
+            return a[1] - b[1]; 
+        });
+
+        for (int i = 0; i < k; i++) {
+            int val = arr[i];
+            freq.put(val, freq.getOrDefault(val, 0) + 1);
+        }
+        for (Map.Entry<Integer, Integer> e : freq.entrySet()) {
+            pq.add(new int[]{e.getValue(), e.getKey()});
+        }
+
+        int res = pq.first()[1];
+
+        for (int i = k; i < n; i++) {
+            int out = arr[i - k];
+            int in = arr[i];
+
+            int oldFreqOut = freq.get(out);
+            pq.remove(new int[]{oldFreqOut, out});
+            if (oldFreqOut == 1) {
+                freq.remove(out);
+            } else {
+                freq.put(out, oldFreqOut - 1);
+                pq.add(new int[]{oldFreqOut - 1, out});
+            }
+
+            int oldFreqIn = freq.getOrDefault(in, 0);
+            if (oldFreqIn > 0) pq.remove(new int[]{oldFreqIn, in});
+            freq.put(in, oldFreqIn + 1);
+            pq.add(new int[]{oldFreqIn + 1, in});
+
+            res += pq.first()[1]; 
+        }
+
+        return res;
+    }
+}
