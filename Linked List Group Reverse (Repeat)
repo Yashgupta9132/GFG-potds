@@ -1,0 +1,46 @@
+// Java
+
+class Solution {
+    public Node reverseKGroup(Node head, int k) {
+        if (head == null || k == 1) return head;
+
+        Node dummy = new Node(0);
+        dummy.next = head;
+        Node prevGroupEnd = dummy;
+        Node curr = head;
+
+        while (curr != null) {
+            Node check = curr;
+            int count = 0;
+            while (count < k && check != null) {
+                check = check.next;
+                count++;
+            }
+
+            if (count < k && curr != null) {
+                prevGroupEnd.next = reverse(curr, count);
+                break;
+            }
+
+            Node newHead = reverse(curr, k);
+            prevGroupEnd.next = newHead;
+
+            prevGroupEnd = curr;
+            curr = check;
+        }
+
+        return dummy.next;
+    }
+
+    private Node reverse(Node head, int k) {
+        Node prev = null, curr = head;
+        while (k-- > 0 && curr != null) {
+            Node next = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = next;
+        }
+        head.next = curr; 
+        return prev;
+    }
+}
