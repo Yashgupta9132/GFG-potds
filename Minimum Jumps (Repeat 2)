@@ -1,0 +1,27 @@
+// Java 
+
+class Solution {
+    public int minJumps(int[] arr) {
+        int n = arr.length;
+        if (n <= 1) return 0; 
+        if (arr[0] == 0) return -1; 
+
+        int jumps = 1; 
+        int ladder = arr[0]; 
+        int stairs = arr[0]; 
+
+        for (int i = 1; i < n; i++) {
+            if (i == n - 1) return jumps;
+
+            ladder = Math.max(ladder, i + arr[i]);
+            stairs--;
+
+            if (stairs == 0) {
+                jumps++;
+                if (i >= ladder) return -1;
+                stairs = ladder - i;
+            }
+        }
+        return -1;
+    }
+}
