@@ -1,0 +1,51 @@
+// Java 
+
+class Solution {
+    public static int minCost(int n, int m, int[] x, int[] y) {
+        Arrays.sort(x);
+        Arrays.sort(y);
+        reverse(x);
+        reverse(y);
+
+        int i = 0, j = 0;
+        int hSegments = 1, vSegments = 1;
+        int cost = 0;
+
+        while (i < x.length && j < y.length) {
+            if (x[i] >= y[j]) {
+                cost += x[i] * hSegments;
+                vSegments++;
+                i++;
+            } else {
+                cost += y[j] * vSegments;
+                hSegments++;
+                j++;
+            }
+        }
+
+        while (i < x.length) {
+            cost += x[i] * hSegments;
+            vSegments++;
+            i++;
+        }
+
+        while (j < y.length) {
+            cost += y[j] * vSegments;
+            hSegments++;
+            j++;
+        }
+
+        return cost;
+    }
+
+    private static void reverse(int[] arr) {
+        int l = 0, r = arr.length - 1;
+        while (l < r) {
+            int temp = arr[l];
+            arr[l] = arr[r];
+            arr[r] = temp;
+            l++;
+            r--;
+        }
+    }
+}
