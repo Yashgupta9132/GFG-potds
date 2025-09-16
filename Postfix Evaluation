@@ -1,0 +1,43 @@
+// Java 
+
+class Solution {
+    public int evaluatePostfix(String[] arr) {
+        Deque<Integer> st = new ArrayDeque<>();
+        for (String token : arr) {
+            if (isOperator(token)) {
+                int b = st.pop();
+                int a = st.pop();
+                st.push(applyOp(a, b, token));
+            } else {
+                st.push(Integer.parseInt(token));
+            }
+        }
+        return st.pop();
+    }
+
+    private boolean isOperator(String s) {
+        return s.length() == 1 && "+-*/^".indexOf(s.charAt(0)) >= 0;
+    }
+
+    private int applyOp(int a, int b, String op) {
+        char c = op.charAt(0);
+        if (c == '+') return a + b;
+        if (c == '-') return a - b;
+        if (c == '*') return a * b;
+        if (c == '/') return Math.floorDiv(a, b);
+        return pow(a, b);
+    }
+
+    private int pow(int a, int b) {
+        if (b < 0) return 0;
+        long res = 1;
+        long base = a;
+        int exp = b;
+        while (exp > 0) {
+            if ((exp & 1) == 1) res = res * base;
+            base = base * base;
+            exp >>= 1;
+        }
+        return (int) res;
+    }
+}
