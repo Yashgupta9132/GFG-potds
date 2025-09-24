@@ -1,0 +1,51 @@
+// Java 
+
+class SpecialQueue {
+    private Deque<Integer> q;     
+    private Deque<Integer> minQ;  
+    private Deque<Integer> maxQ;  
+
+    public SpecialQueue() {
+        q = new ArrayDeque<>();
+        minQ = new ArrayDeque<>();
+        maxQ = new ArrayDeque<>();
+    }
+
+    public void enqueue(int x) {
+        q.offer(x);
+
+        while (!minQ.isEmpty() && minQ.peekLast() > x) {
+            minQ.pollLast();
+        }
+        minQ.offer(x);
+
+        while (!maxQ.isEmpty() && maxQ.peekLast() < x) {
+            maxQ.pollLast();
+        }
+        maxQ.offer(x);
+    }
+
+    public void dequeue() {
+        if (q.isEmpty()) return;
+        int val = q.poll();
+
+        if (val == minQ.peek()) {
+            minQ.poll();
+        }
+        if (val == maxQ.peek()) {
+            maxQ.poll();
+        }
+    }
+
+    public int getFront() {
+        return q.peek();
+    }
+
+    public int getMin() {
+        return minQ.peek();
+    }
+
+    public int getMax() {
+        return maxQ.peek();
+    }
+}
