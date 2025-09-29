@@ -1,0 +1,36 @@
+// Java 
+
+import java.util.*;
+
+class Solution {
+    public int maxSubarrSum(int[] arr, int a, int b) {
+        int n = arr.length;
+        long[] prefix = new long[n + 1];
+        for (int i = 0; i < n; i++) {
+            prefix[i + 1] = prefix[i] + arr[i];
+        }
+
+        Deque<Integer> dq = new LinkedList<>();
+        long ans = Long.MIN_VALUE;
+
+        for (int r = 0; r < n; r++) {
+            if (r - a + 1 >= 0) {
+                int idx = r - a + 1;
+                while (!dq.isEmpty() && prefix[dq.peekLast()] >= prefix[idx]) {
+                    dq.pollLast();
+                }
+                dq.offerLast(idx);
+            }
+
+            if (!dq.isEmpty() && dq.peekFirst() < r - b + 1) {
+                dq.pollFirst();
+            }
+
+            if (!dq.isEmpty()) {
+                ans = Math.max(ans, prefix[r + 1] - prefix[dq.peekFirst()]);
+            }
+        }
+
+        return (int) ans;
+    }
+}
