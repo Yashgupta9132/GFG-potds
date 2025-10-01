@@ -1,0 +1,36 @@
+// Java  
+
+import java.util.*;
+
+class Solution {
+    public static ArrayList<ArrayList<Integer>> uniquePerms(int[] arr) {
+        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+        Arrays.sort(arr); 
+        boolean[] used = new boolean[arr.length];
+        backtrack(arr, used, new ArrayList<>(), result);
+        return result;
+    }
+
+    private static void backtrack(int[] arr, boolean[] used,
+                                  ArrayList<Integer> temp,
+                                  ArrayList<ArrayList<Integer>> result) {
+        if (temp.size() == arr.length) {
+            result.add(new ArrayList<>(temp));
+            return;
+        }
+
+        for (int i = 0; i < arr.length; i++) {
+            if (used[i]) continue;
+
+            if (i > 0 && arr[i] == arr[i - 1] && !used[i - 1]) continue;
+
+            used[i] = true;
+            temp.add(arr[i]);
+
+            backtrack(arr, used, temp, result);
+
+            temp.remove(temp.size() - 1);
+            used[i] = false;
+        }
+    }
+}
