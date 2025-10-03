@@ -1,0 +1,38 @@
+// Java 
+
+import java.util.*;
+
+class Solution {
+    private static final String[] KEYPAD = {
+        "", "", "abc", "def", "ghi", "jkl",
+        "mno", "pqrs", "tuv", "wxyz"
+    };
+
+    public ArrayList<String> possibleWords(int[] arr) {
+        ArrayList<String> result = new ArrayList<>();
+        if (arr == null || arr.length == 0) return result;
+        backtrack(arr, 0, new StringBuilder(), result);
+        return result;
+    }
+
+    private void backtrack(int[] arr, int index, StringBuilder sb, ArrayList<String> result) {
+        if (index == arr.length) {
+            if (sb.length() > 0) result.add(sb.toString());
+            return;
+        }
+
+        int digit = arr[index];
+        if (digit < 0 || digit > 9) return; 
+
+        String letters = KEYPAD[digit];
+        if (letters.isEmpty()) {
+            backtrack(arr, index + 1, sb, result);
+        } else {
+            for (char c : letters.toCharArray()) {
+                sb.append(c);
+                backtrack(arr, index + 1, sb, result);
+                sb.deleteCharAt(sb.length() - 1);
+            }
+        }
+    }
+}
