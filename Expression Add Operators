@@ -1,0 +1,36 @@
+// Java 
+
+import java.util.*;
+
+class Solution {
+    public ArrayList<String> findExpr(String s, int target) {
+        ArrayList<String> result = new ArrayList<>();
+        backtrack(s, target, 0, 0, 0, "", result);
+        Collections.sort(result); 
+        return result;
+    }
+
+    private void backtrack(String s, int target, int index, long currentValue, long lastOperand, String expr, ArrayList<String> result) {
+        if (index == s.length()) {
+            if (currentValue == target) {
+                result.add(expr);
+            }
+            return;
+        }
+
+        for (int i = index; i < s.length(); i++) {
+            if (i != index && s.charAt(index) == '0') break;
+
+            long currNum = Long.parseLong(s.substring(index, i + 1));
+
+            if (index == 0) {
+                backtrack(s, target, i + 1, currNum, currNum, "" + currNum, result);
+            } else {
+                backtrack(s, target, i + 1, currentValue + currNum, currNum, expr + "+" + currNum, result);
+                backtrack(s, target, i + 1, currentValue - currNum, -currNum, expr + "-" + currNum, result);
+                backtrack(s, target, i + 1, currentValue - lastOperand + lastOperand * currNum,
+                        lastOperand * currNum, expr + "*" + currNum, result);
+            }
+        }
+    }
+}
