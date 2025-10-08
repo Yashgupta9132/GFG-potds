@@ -1,0 +1,34 @@
+// Java 
+
+import java.util.*;
+
+class Solution {
+    int preIndex = 0;
+    HashMap<Integer, Integer> postMap = new HashMap<>();
+
+    public Node constructTree(int[] pre, int[] post) {
+        int n = pre.length;
+        for (int i = 0; i < n; i++) {
+            postMap.put(post[i], i);
+        }
+        return build(pre, post, 0, n - 1);
+    }
+
+    private Node build(int[] pre, int[] post, int start, int end) {
+        if (preIndex >= pre.length || start > end)
+            return null;
+
+        Node root = new Node(pre[preIndex++]);
+
+        if (start == end || preIndex >= pre.length)
+            return root;
+
+        int leftVal = pre[preIndex];
+        int idx = postMap.get(leftVal);
+
+        root.left = build(pre, post, start, idx);
+        root.right = build(pre, post, idx + 1, end - 1);
+
+        return root;
+    }
+}
